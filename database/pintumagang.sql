@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.7.0
+-- version 4.7.4
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Feb 28, 2018 at 07:50 AM
--- Server version: 10.1.25-MariaDB
--- PHP Version: 5.6.31
+-- Generation Time: Apr 11, 2018 at 01:31 AM
+-- Server version: 10.1.30-MariaDB
+-- PHP Version: 7.2.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -32,15 +32,15 @@ CREATE TABLE `admin` (
   `id_admin` int(100) NOT NULL,
   `id_user` int(100) NOT NULL,
   `nama` varchar(25) NOT NULL,
-  `email` varchar(25) NOT NULL
+  `phone` int(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `admin`
 --
 
-INSERT INTO `admin` (`id_admin`, `id_user`, `nama`, `email`) VALUES
-(1, 2, 'kamal', 'kamaludinakbar0@gmail.com');
+INSERT INTO `admin` (`id_admin`, `id_user`, `nama`, `phone`) VALUES
+(3, 19, 'M.Kamaludin Akbar', 0);
 
 -- --------------------------------------------------------
 
@@ -582,13 +582,15 @@ INSERT INTO `kabupaten_kota` (`id_kabkot`, `id_provinsi`, `nama_kabkot`) VALUES
 
 CREATE TABLE `lowongan` (
   `id_lowongan` int(100) NOT NULL,
-  `namaLowongan` varchar(50) NOT NULL,
+  `nama_lowongan` varchar(50) NOT NULL,
   `id_prodi` varchar(10) NOT NULL,
   `deskripsi` varchar(100) NOT NULL,
   `id_perusahaan` int(100) NOT NULL,
   `status` varchar(10) NOT NULL,
   `waktu_input` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  `jenis_magang` varchar(30) NOT NULL
+  `dateline_submit` date NOT NULL,
+  `jenis_magang` varchar(30) NOT NULL,
+  `lokasi` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -602,9 +604,7 @@ CREATE TABLE `mahasiswa` (
   `id_user` int(100) NOT NULL,
   `nama_depan` varchar(25) NOT NULL,
   `nama_belakang` varchar(30) DEFAULT NULL,
-  `perguruan_tinggi` varchar(25) DEFAULT NULL,
-  `email` varchar(25) NOT NULL,
-  `cv` varchar(25) DEFAULT NULL,
+  `perguruan_tinggi` varchar(100) DEFAULT NULL,
   `hp` varchar(20) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -612,8 +612,8 @@ CREATE TABLE `mahasiswa` (
 -- Dumping data for table `mahasiswa`
 --
 
-INSERT INTO `mahasiswa` (`id_mhs`, `id_user`, `nama_depan`, `nama_belakang`, `perguruan_tinggi`, `email`, `cv`, `hp`) VALUES
-(3, 8, 'ayam', NULL, NULL, 'AYAM@.COM', NULL, NULL);
+INSERT INTO `mahasiswa` (`id_mhs`, `id_user`, `nama_depan`, `nama_belakang`, `perguruan_tinggi`, `hp`) VALUES
+(7, 25, 'dekuy', 'bokuy', 'ptn456789-0', '456');
 
 -- --------------------------------------------------------
 
@@ -624,7 +624,8 @@ INSERT INTO `mahasiswa` (`id_mhs`, `id_user`, `nama_depan`, `nama_belakang`, `pe
 CREATE TABLE `pelamar` (
   `id_pelamar` int(11) NOT NULL,
   `id_mhs` int(11) NOT NULL,
-  `id_lowongan` int(11) NOT NULL
+  `id_lowongan` int(11) NOT NULL,
+  `cv` longblob NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -634,6 +635,7 @@ CREATE TABLE `pelamar` (
 --
 
 CREATE TABLE `perusahaan` (
+  `id_user` int(100) NOT NULL,
   `id_perusahaan` int(100) NOT NULL,
   `logo` varchar(100) NOT NULL,
   `nama_perusahaan` varchar(50) NOT NULL,
@@ -647,6 +649,13 @@ CREATE TABLE `perusahaan` (
   `id_kota` varchar(50) NOT NULL,
   `kodepos` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `perusahaan`
+--
+
+INSERT INTO `perusahaan` (`id_user`, `id_perusahaan`, `logo`, `nama_perusahaan`, `alamat_perusahaan`, `deskripsi`, `id_industri`, `status`, `email`, `link_website`, `id_provinsi`, `id_kota`, `kodepos`) VALUES
+(20, 1, '', 'hjkfghj', 'fghj', 'dyfghl.ksmfnvhuab', 'ugauyg', 'Valid', '34567nmz', 'eikn bnv', 'bkck', 'kksds', 76738);
 
 -- --------------------------------------------------------
 
@@ -719,19 +728,21 @@ INSERT INTO `provinsi` (`id_provinsi`, `nama_provinsi`) VALUES
 CREATE TABLE `user` (
   `id_user` int(100) NOT NULL,
   `username` varchar(25) NOT NULL,
-  `password` varchar(25) NOT NULL,
-  `last_login` timestamp(6) NULL DEFAULT NULL
+  `email_user` varchar(50) NOT NULL,
+  `password` varchar(32) NOT NULL,
+  `status` varchar(1) NOT NULL,
+  `last_login` datetime DEFAULT CURRENT_TIMESTAMP,
+  `ip_address` varchar(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id_user`, `username`, `password`, `last_login`) VALUES
-(2, 'kamal', 'aa63b0d5d950361c05012235a', '2018-02-27 09:23:24.000000'),
-(3, 'aaa', '47bce5c74f589f4867dbd57e9', NULL),
-(4, 'aaa', '47bce5c74f589f4867dbd57e9', NULL),
-(8, 'ayam', 'bffa783a022fe2d98692014dd', NULL);
+INSERT INTO `user` (`id_user`, `username`, `email_user`, `password`, `status`, `last_login`, `ip_address`) VALUES
+(19, 'kamal', '', 'aa63b0d5d950361c05012235ab520512', 'A', '0000-00-00 00:00:00', ''),
+(20, 'ilham', '', 'b63d204bf086017e34d8bd27ab969f28', 'P', '2018-03-28 02:18:22', ''),
+(25, 'dekuu', 'shuua@gmail.com', '123r', '', '2018-04-09 01:29:43', '');
 
 --
 -- Indexes for dumped tables
@@ -770,6 +781,13 @@ ALTER TABLE `pelamar`
   ADD PRIMARY KEY (`id_pelamar`);
 
 --
+-- Indexes for table `perusahaan`
+--
+ALTER TABLE `perusahaan`
+  ADD PRIMARY KEY (`id_perusahaan`),
+  ADD KEY `id_user` (`id_user`);
+
+--
 -- Indexes for table `provinsi`
 --
 ALTER TABLE `provinsi`
@@ -789,27 +807,38 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id_admin` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id_admin` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
 --
 -- AUTO_INCREMENT for table `lowongan`
 --
 ALTER TABLE `lowongan`
   MODIFY `id_lowongan` int(100) NOT NULL AUTO_INCREMENT;
+
 --
 -- AUTO_INCREMENT for table `mahasiswa`
 --
 ALTER TABLE `mahasiswa`
-  MODIFY `id_mhs` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id_mhs` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
 --
 -- AUTO_INCREMENT for table `pelamar`
 --
 ALTER TABLE `pelamar`
   MODIFY `id_pelamar` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `perusahaan`
+--
+ALTER TABLE `perusahaan`
+  MODIFY `id_perusahaan` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id_user` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_user` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
+
 --
 -- Constraints for dumped tables
 --
@@ -825,6 +854,12 @@ ALTER TABLE `admin`
 --
 ALTER TABLE `mahasiswa`
   ADD CONSTRAINT `mahasiswa_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `perusahaan`
+--
+ALTER TABLE `perusahaan`
+  ADD CONSTRAINT `perusahaan_ibfk_1` FOREIGN KEY (`id_user`) REFERENCES `user` (`id_user`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
