@@ -24,7 +24,13 @@
         <tr><td><?php echo $pndf->id_pelamar?></td>
             <td><?php echo $pndf->nama_lowongan?></td>
             <td><?php echo $pndf->email?></td>
-            <td><?php echo $pndf->cv?></td>
+            <td>
+                <form target="_blank" action="<?php echo site_url("Perusahaan/tampilkanCV")?>" method="get">
+                    <input name="cv" type="hidden" value="<?php echo $pndf->id_pelamar?>">
+                    <button type="submit" style="padding: 0;border: none;background: none;">ini cv</button>
+                </form>
+            </td>
+
             <td><?php echo $pndf->linkedin?></td>
 
         </tr>

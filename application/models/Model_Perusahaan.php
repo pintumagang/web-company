@@ -22,6 +22,13 @@ INNER JOIN lowongan ON pelamar.id_lowongan = lowongan.id_lowongan;";
 
         return $this->db->query($sql);
     }
+
+    public function getCV($id_pelamar){
+        $myText = (string)$id_pelamar;
+        $sql = "SELECT pelamar.cv FROM pelamar where id_pelamar=1";
+        return $this->db->query($sql);
+    }
+
 }
 
 ?>

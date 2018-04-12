@@ -38,6 +38,19 @@ class Perusahaan extends CI_Controller {
         }*/
 	}
 
+    /**
+     *
+     */
+    public function tampilkanCV(){
+       $cv_id = $this->input->post('cv',true);
+
+        $cv['data'] = $this->Model_Perusahaan->getCV($cv_id)->result();
+
+        $this->load->view('CV',$cv);
+
+
+    }
+
 
 
     public function register(){
