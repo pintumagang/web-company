@@ -10,7 +10,7 @@ class User extends CI_Controller {
 
             if ($this->session->userdata('status') == 'P'){
                 $this->load->view('Perusahaan_Home');
-            }else{
+             }else{
                 $this->load->view('Perusahaan_Home');
             }
 

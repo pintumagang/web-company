@@ -23,7 +23,11 @@ class Perusahaan extends CI_Controller {
     }
 
     public function View_TambahLowongan(){
-        $this->load->view('Perusahaan_Home');
+
+        $dataLowongan['daftarLowongan']= $this->Model_Perusahaan->getLowongan()->result();
+
+        $this->load->view('Perusahaan_Home', $dataLowongan);
+
     }
 
     public function View_EditProfil(){
@@ -42,12 +46,35 @@ class Perusahaan extends CI_Controller {
      *
      */
     public function tampilkanCV(){
+
        $cv_id = $this->input->post('cv',true);
 
         $cv['data'] = $this->Model_Perusahaan->getCV($cv_id)->result();
 
         $this->load->view('CV',$cv);
 
+
+    }
+
+    public function periksaDaftarPelamar(){
+
+        $id = $this->input->post('id',true);
+        $status_periksa = $this->input->post('periksa',true);
+
+        $this->Model_Perusahaan->updateStatusPemeriksaanPelamar($id,$status_periksa);
+
+        $this->load->view('Perusahaan_Home');
+
+    }
+
+    public function statusDaftarLowongan(){
+
+        $id = $this->input->post('id',true);
+        $status_periksa = $this->input->post('periksa',true);
+
+        $this->Model_Perusahaan->updateStatusLowongan($id,$status_periksa);
+
+        $this->load->view('Perusahaan_Home');
 
     }
 
@@ -74,6 +101,10 @@ class Perusahaan extends CI_Controller {
             $kota, $negara, $kode_pos, $no_tlp,
             $email_daftar, $username_daftar, $password_daftar, $jenis_industri, $website);
 
+    }
+
+    public function test_modal(){
+        $this->load->view('Modal_Test');
     }
 
 }
