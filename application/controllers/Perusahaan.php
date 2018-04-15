@@ -78,6 +78,54 @@ class Perusahaan extends CI_Controller {
 
     }
 
+    public function tambahLowongan(){
+
+
+        $data = array(
+            'nama_lowongan' => $this->input->post('namaLowongan'),
+            'deskripsi' => $this->input->post('deskripsi'),
+            'dateline_submit' => $this->input->post('date'),
+            'jenis_magang' => $this->input->post('jenisMagang'),
+             'status' => $this->input->post('status'),
+            'lokasi' => $this->input->post('lokasi')
+        );
+
+
+        $this->Model_Perusahaan->insertLowongan($data);
+        $this->load->view('Perusahaan_Home');
+/*
+        $waktu = explode("/",$this->input->post('date'));
+        $time = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];
+        $data = array(
+            'tanggal' => $waktu[0],
+            'bulan' => $waktu[1],
+            'tahun' => $waktu[2],
+            'a'=>$time
+        );
+        $this->load->view('Modal_Test',$data);*/
+
+    }
+
+    public function updateLowongan(){
+
+           $id = $this->input->post('id', true);
+           $nama_lowongan = $this->input->post('namaLowongan2',true);
+           $deskripsi =$this->input->post('deskripsi2', true);
+           $time = $this->input->post('date2');
+           $jenis_magang = $this->input->post('jenisMagang2', true);
+           $lokasi =$this->input->post('lokasi2',true);
+           $status = $this->input->post('status2',true);
+
+
+        $this->Model_Perusahaan->updateLowonganM(
+            $id,$nama_lowongan,$deskripsi,$time,$jenis_magang,$status,$lokasi
+        );
+
+        $this->load->view('Perusahaan_Home');
+
+    }
+
+
 
 
     public function register(){

@@ -68,6 +68,27 @@ INNER JOIN pelamar ON a.id_mhs = pelamar.id_mhs) AS b INNER JOIN lowongan ON b.i
         $this->db->update('lowongan',$updateData);
     }
 
+    public function insertLowongan($data){
+        $this->db->insert('lowongan', $data);
+    }
+
+    public function updateLowonganM($id_lowongan,$nama_lowongan,$deskripsi,$waktu,$jenis_magang,
+$status,$lokasi){
+
+
+        $updateData=array(
+            "nama_lowongan"=> $nama_lowongan,
+            "deskripsi"=> $deskripsi,
+            "dateline_submit" =>$waktu,
+            "jenis_magang" => $jenis_magang,
+            "lokasi" => $lokasi,
+            "status" =>$status);
+
+
+        $this->db->where('id_lowongan',$id_lowongan);
+        $this->db->update('lowongan',$updateData);
+    }
+
 
 
 }

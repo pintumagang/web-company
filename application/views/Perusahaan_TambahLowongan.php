@@ -4,7 +4,12 @@
 <div id="toolbar" class="btn-group">
 </div>
 
-<button type="button" data-toggle="modal" data-target="#m">tambah</button>
+<div>
+    <button style="float: right; padding: 0;
+border: none;
+background: none;" type="button" data-toggle="modal" data-target="#m"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></button>
+
+</div>
 
 <div class="modal fade" id="m" role="dialog">
     <div class="modal-dialog">
@@ -13,21 +18,21 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Profil</h4>
+                <h4 class="modal-title">Tambah Lowongan</h4>
             </div>
             <div class="modal-body" >
                 <div class="bootstrap-iso">
                     <div class="container-fluid">
                         <div class="row">
-                            <div class="col-md-6 col-sm-6 col-xs-12">
-                                <form method="post">
+                            <div class="center-block">
+                                <form method="post" action="<?php echo site_url("Perusahaan/tambahLowongan")?>">
 
                                     <div class="form-group ">
                                         <input class="form-control" id="name" name="namaLowongan" placeholder="Nama Lowongan" type="text"/>
                                     </div>
 
                                     <div class="form-group ">
-                                        <textarea class="form-control" cols="40" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"></textarea>
+                                        <textarea class="form-control" cols="40" name="deskripsi" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"></textarea>
                                     </div>
 
                                     <div class="form-group ">
@@ -36,18 +41,18 @@
                                                 <i class="fa fa-calendar">
                                                 </i>
                                             </div>
-                                            <input class="form-control" id="date" name="date" placeholder="DD/MM/YYYY" type="text"/>
+                                            <input class="form-control" id="date" name="date" placeholder="YYYY-DD-MM" type="text"/>
                                         </div>
                                     </div>
 
                                     <div class="form-group ">
-                                        <input class="form-control" id="name1" name="name1" placeholder="Lokasi" type="text"/>
+                                        <input class="form-control" id="name1" name="lokasi" placeholder="Lokasi" type="text"/>
                                     </div>
                                     <div class="form-group ">
                                         <label class="control-label " for="select">
                                             Select a Choice
                                         </label>
-                                        <select class="select form-control" id="select" name="select">
+                                        <select class="select form-control" id="select" name="jenisMagang">
                                             <option value="fulltime">
                                                 fulltime
                                             </option>
@@ -60,7 +65,7 @@
                                         <label class="control-label " for="select1">
                                             Select a Choice
                                         </label>
-                                        <select class="select form-control" id="select1" name="select1">
+                                        <select class="select form-control" id="select1" name="status">
                                             <option value="aktif">
                                                 aktif
                                             </option>
@@ -117,7 +122,92 @@
                     <input name="periksa" type="hidden" value="<?php echo $low->status?>">
                     <button type="submit"><?php echo $low->status?></button>
                 </form></td>
-            <td><button type="button">Edit</button></td>
+            <td>
+
+                <button type="button" data-toggle="modal" data-target="#<?php echo $low->id_lowongan?>">Edit</button>
+
+                <div class="modal fade" id="<?php echo $low->id_lowongan?>" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Edit</h4>
+                            </div>
+                            <div class="modal-body" >
+                                <form method="post" action="<?php echo site_url("Perusahaan/updateLowongan")?>">
+                                    <input name="id" type="hidden" value="<?php echo $low->id_lowongan?>">
+
+                                    <div class="form-group ">
+                                        <input class="form-control" value="<?php echo $low->nama_lowongan?>" id="name" name="namaLowongan2" placeholder="Nama Lowongan" type="text"/>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10">
+                                            <?php echo $low->deskripsi?>
+                                        </textarea>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <div class="input-group">
+                                            <div class="input-group-addon">
+                                                <i class="fa fa-calendar">
+                                                </i>
+                                            </div>
+                                            <input class="form-control" value="<?php echo $low->dateline_submit?>" id="date" name="date2" placeholder="YYYY-DD-MM" type="text"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group ">
+                                        <input class="form-control"  value="<?php echo $low->lokasi?>" id="name1" name="lokasi2" placeholder="Lokasi" type="text"/>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label class="control-label " for="select">
+                                            Select a Choice
+                                        </label>
+                                        <select class="select form-control" value="<?php echo $low->jenis_magang?>" id="select" name="jenisMagang2">
+                                            <option value="fulltime">
+                                                fulltime
+                                            </option>
+                                            <option value="part time">
+                                                part time
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group ">
+                                        <label class="control-label " for="select1">
+                                            Select a Choice
+                                        </label>
+                                        <select class="select form-control" value="<?php echo $low->status?>" id="select1" name="status2">
+                                            <option value="aktif">
+                                                aktif
+                                            </option>
+                                            <option value="non aktif">
+                                                non aktif
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <div>
+                                            <button class="btn btn-primary " name="submit" type="submit">
+                                                Submit
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                </form>
+                            </div>
+                            <!--<div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+            -->            </div>
+
+                    </div>
+                </div>
+
+
+            </td>
         </tr>
     <?php }?>
 
@@ -149,10 +239,14 @@
         var date_input=$('input[name="date"]'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
-            format: 'mm/dd/yyyy',
+            format: 'yyyy-mm-dd',
             container: container,
             todayHighlight: true,
             autoclose: true,
         })
     })
+
 </script>
+
+
+
