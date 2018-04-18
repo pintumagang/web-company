@@ -65,7 +65,7 @@ class Perusahaan extends CI_Controller {
 
         $this->Model_Perusahaan->updateStatusPemeriksaanPelamar($id,$status_periksa);
 
-        $this->load->view('Perusahaan_Home');
+        redirect('Perusahaan/View_Pendaftar?module=Pendaftar');
 
     }
 
@@ -76,7 +76,8 @@ class Perusahaan extends CI_Controller {
 
         $this->Model_Perusahaan->updateStatusLowongan($id,$status_periksa);
 
-        $this->load->view('Perusahaan_Home');
+        //$this->load->view('Perusahaan_Home');
+        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
 
     }
 
@@ -94,7 +95,7 @@ class Perusahaan extends CI_Controller {
 
 
         $this->Model_Perusahaan->insertLowongan($data);
-        $this->load->view('Perusahaan_Home');
+        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
 
         /*$waktu = explode("/",$this->input->post('date'));
         $time = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];*/
@@ -125,14 +126,16 @@ class Perusahaan extends CI_Controller {
             $id,$nama_lowongan,$deskripsi,$time,$jenis_magang,$status,$lokasi
         );
 
-        $this->load->view('Perusahaan_Home');
+        //$this->load->view('Perusahaan_Home');
+        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
 
     }
 
     public function hapusLowongan(){
         $id = $this->input->post('id', true);
         $this->Model_Perusahaan->hapusLowongan($id);
-        $this->load->view('Perusahaan_Home');
+        //$this->load->view('Perusahaan_Home');
+        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
     }
 
 
