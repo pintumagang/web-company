@@ -31,11 +31,13 @@ class Perusahaan extends CI_Controller {
     }
 
     public function View_EditProfil(){
-        $this->load->view('Perusahaan_Home');
+
+        $dataPerusahaan['dataPerusahaan']= $this->Model_Perusahaan->getPerusahaan()->result();
+        $this->load->view('Perusahaan_Home', $dataPerusahaan);
     }
 	public function view_register(){
 
-        $this->load->view('Register_Perusahaan');
+        $this->load->view('Registrasi');
 
        /* if (isset($_POST["submit_daftar"])){
                 $this->register();
@@ -93,14 +95,16 @@ class Perusahaan extends CI_Controller {
 
         $this->Model_Perusahaan->insertLowongan($data);
         $this->load->view('Perusahaan_Home');
-/*
-        $waktu = explode("/",$this->input->post('date'));
-        $time = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];
-        $data = array(
+
+        /*$waktu = explode("/",$this->input->post('date'));
+        $time = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];*/
+       /* $data = array(
             'tanggal' => $waktu[0],
             'bulan' => $waktu[1],
             'tahun' => $waktu[2],
-            'a'=>$time
+            'a' =>$time,
+            'id_user'=> $this->session->userdata('id_user'),
+            'id_user2' => $_SESSION['id_user']
         );
         $this->load->view('Modal_Test',$data);*/
 
@@ -125,12 +129,18 @@ class Perusahaan extends CI_Controller {
 
     }
 
+    public function hapusLowongan(){
+        $id = $this->input->post('id', true);
+        $this->Model_Perusahaan->hapusLowongan($id);
+        $this->load->view('Perusahaan_Home');
+    }
+
 
 
 
     public function register(){
 
-
+/*
         $nama_perusahaan = $this->input->post('nama_perusahaan',true);
         $nama_jalan = $this->input->post('nama_jalan',true);
         $provinsi = $this->input->post('provinsi',true);
@@ -147,7 +157,7 @@ class Perusahaan extends CI_Controller {
 
 	    $this->Model_Perusahaan->createPerusahaan($nama_perusahaan, $nama_jalan, $provinsi,
             $kota, $negara, $kode_pos, $no_tlp,
-            $email_daftar, $username_daftar, $password_daftar, $jenis_industri, $website);
+            $email_daftar, $username_daftar, $password_daftar, $jenis_industri, $website);*/
 
     }
 

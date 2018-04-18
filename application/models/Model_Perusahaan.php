@@ -4,15 +4,13 @@ class Model_Perusahaan extends CI_Model {
 
 
 
-    public function createPerusahaan($nama_perusahaan, $nama_jalan, $provinsi, $kota, $negara, $kode_pos, $no_tlp,
-                                    $email_daftar, $username_daftar, $password_daftar, $jenis_industri, $website){
+    public function createPerusahaan($nama, $username, $email, $password){
 
-        $this->db->insert("perusahaan",array("nama_perusahaan"=>$nama_perusahaan, "alamat_perusahaan"=> $nama_jalan,
-                                            "link_website"=>$website, "kodepos" =>$kode_pos, "status"=> "P"));
+       /* $this->db->insert("perusahaan",array("nama_perusahaan"=> $nana));
 
         $this->db->insert("user",array("username"=>$username_daftar, "password" =>$password_daftar, "status"=>"P"));
 
-        return $this->db->insert_id();
+        return $this->db->insert_id();*/
     }
 
     public function tampilkanPelamar(){
@@ -90,6 +88,21 @@ $status,$lokasi){
     }
 
 
+    public function getPerusahaan(){
+        $a =$_SESSION['id_user'];
+        $sql = "SELECT a.*, kabupaten_kota.nama_kabkot FROM
+(SELECT perusahaan.id_user, perusahaan.nama_perusahaan, perusahaan.logo, perusahaan.id_perusahaan, perusahaan.alamat_perusahaan,
+ perusahaan.deskripsi, perusahaan.jenis_industri, perusahaan.status, perusahaan.email, perusahaan.link_website, perusahaan.id_provinsi, perusahaan.id_kota, perusahaan.kodepos, provinsi.nama_provinsi FROM perusahaan INNER JOIN provinsi ON perusahaan.id_provinsi = provinsi.id_provinsi) AS a
+INNER JOIN kabupaten_kota ON a.id_kota = kabupaten_kota.id_kabkot WHERE id_user ='$a'";
+
+        return $this->db->query($sql);
+    }
+
+    public function hapusLowongan($id_lowongan){
+        $sql = "DELETE FROM lowongan WHERE id_lowongan ='$id_lowongan'";
+
+        return $this->db->query($sql);
+    }
 
 }
 ?>

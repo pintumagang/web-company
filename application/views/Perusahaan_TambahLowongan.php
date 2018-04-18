@@ -4,95 +4,6 @@
 <div id="toolbar" class="btn-group">
 </div>
 
-<div>
-    <button style="float: right; padding: 0;
-border: none;
-background: none;" type="button" data-toggle="modal" data-target="#m"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></button>
-
-</div>
-
-<div class="modal fade" id="m" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h4 class="modal-title">Tambah Lowongan</h4>
-            </div>
-            <div class="modal-body" >
-                <div class="bootstrap-iso">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="center-block">
-                                <form method="post" action="<?php echo site_url("Perusahaan/tambahLowongan")?>">
-
-                                    <div class="form-group ">
-                                        <input class="form-control" id="name" name="namaLowongan" placeholder="Nama Lowongan" type="text"/>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <textarea class="form-control" cols="40" name="deskripsi" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"></textarea>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <div class="input-group">
-                                            <div class="input-group-addon">
-                                                <i class="fa fa-calendar">
-                                                </i>
-                                            </div>
-                                            <input class="form-control" id="date" name="date" placeholder="YYYY-DD-MM" type="text"/>
-                                        </div>
-                                    </div>
-
-                                    <div class="form-group ">
-                                        <input class="form-control" id="name1" name="lokasi" placeholder="Lokasi" type="text"/>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label class="control-label " for="select">
-                                            Select a Choice
-                                        </label>
-                                        <select class="select form-control" id="select" name="jenisMagang">
-                                            <option value="fulltime">
-                                                fulltime
-                                            </option>
-                                            <option value="part time">
-                                                part time
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group ">
-                                        <label class="control-label " for="select1">
-                                            Select a Choice
-                                        </label>
-                                        <select class="select form-control" id="select1" name="status">
-                                            <option value="aktif">
-                                                aktif
-                                            </option>
-                                            <option value="non aktif">
-                                                non aktif
-                                            </option>
-                                        </select>
-                                    </div>
-                                    <div class="form-group">
-                                        <div>
-                                            <button class="btn btn-primary " name="submit" type="submit">
-                                                Submit
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-
-            </div>
-        </div>
-    </div>
-</div>
 
 <table id="myTable" class="table table-striped table-bordered table-hover">
     <thead>
@@ -104,7 +15,99 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
         <th>lokasi</th>
         <th>jenis magang</th>
         <th>Status</th>
-        <th>edit</th>
+        <th><div>
+                <button style="padding: 0;
+border: none;
+background: none;" type="button" data-toggle="modal" data-target="#m"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></button>
+
+            </div>
+
+            <div class="modal fade" id="m" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Tambah Lowongan</h4>
+                        </div>
+                        <div class="modal-body" >
+                            <div class="bootstrap-iso">
+                                <div class="container-fluid">
+                                    <div class="row">
+                                        <div class="center-block">
+                                            <form method="post" action="<?php echo site_url("Perusahaan/tambahLowongan")?>">
+
+                                                <div class="form-group ">
+                                                    <input class="form-control" id="name" name="namaLowongan" placeholder="Nama Lowongan" type="text"/>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <textarea class="form-control" cols="40" name="deskripsi" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"></textarea>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <div class="input-group">
+                                                        <div class="input-group-addon">
+                                                            <i class="fa fa-calendar">
+                                                            </i>
+                                                        </div>
+                                                        <input class="form-control" id="date" name="date" placeholder="YYYY-DD-MM" type="text"/>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group ">
+                                                    <input class="form-control" id="name1" name="lokasi" placeholder="Lokasi" type="text"/>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <label class="control-label " for="select">
+                                                        Select a Choice
+                                                    </label>
+                                                    <select class="select form-control" id="select" name="jenisMagang">
+                                                        <option value="fulltime">
+                                                            fulltime
+                                                        </option>
+                                                        <option value="part time">
+                                                            part time
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group ">
+                                                    <label class="control-label " for="select1">
+                                                        Select a Choice
+                                                    </label>
+                                                    <select class="select form-control" id="select1" name="status">
+                                                        <option value="aktif">
+                                                            aktif
+                                                        </option>
+                                                        <option value="non aktif">
+                                                            non aktif
+                                                        </option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div>
+                                                        <button class="btn btn-primary " name="submit" type="submit">
+                                                            Submit
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </th>
     </tr>
     </thead>
     <tbody>
@@ -121,10 +124,10 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                     <input name="id" type="hidden" value="<?php echo $low->id_lowongan?>">
                     <input name="periksa" type="hidden" value="<?php echo $low->status?>">
                     <button type="submit"><?php echo $low->status?></button>
-                </form></td>
-            <td>
+                </form>
 
-                <button type="button" data-toggle="modal" data-target="#<?php echo $low->id_lowongan?>">Edit</button>
+            </td>
+            <td>
 
                 <div class="modal fade" id="<?php echo $low->id_lowongan?>" role="dialog">
                     <div class="modal-dialog">
@@ -205,6 +208,66 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
 
                     </div>
                 </div>
+
+                <div class="row">
+                    <div class="col-sm-6">
+                        <button style="padding: 0;
+border: none;background: none;" type="button" data-toggle="modal" data-target="#<?php echo $low->id_lowongan?>"><i class="fa fa-edit fa-2x" aria-hidden="true"></i></button>
+                    </div>
+
+
+                    <div class="container col-sm-6">
+
+                        <button type="button" style="padding: 0;border: none;background: none;"  data-toggle="modal" data-target="#<?php echo $low->id_lowongan?>2">
+                            <i class="fa fa-remove fa-2x" aria-hidden="true"></i>
+                        </button>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="<?php echo $low->id_lowongan?>2" role="dialog">
+                            <div class="modal-dialog" style="width: 350px;">
+
+                                <!-- Modal content-->
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h4 class="modal-title">Warning!</h4>
+                                    </div>
+                                    <div class="modal-body">
+
+                                        <h5>Apakah Anda Yakin ingin Menghapus Lowongan</h5>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <form method="post" action="<?php echo site_url("Perusahaan/hapusLowongan")?>">
+                                                    <input name="id" type="hidden" value="<?php echo $low->id_lowongan?>">
+                                                    <button style="padding: 0;border: none;background: none;" type="submit"><i class="fa fa-check fa-2x" aria-hidden="true"></i></button>
+                                                </form>
+                                            </div>
+
+                                            <div class="col-sm-4">
+                                                <button style="padding: 0;border: none;background: none;" type="button" class="close" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                                            </div>
+
+                                        </div>
+
+
+
+                                    </div>
+                                    <!--<div class="modal-footer">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    </div>
+                    -->            </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+
 
 
             </td>

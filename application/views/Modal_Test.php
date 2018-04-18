@@ -17,8 +17,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
-        <p><?php echo $tanggal.'-'.$bulan.'-'.$tahun ?></p>
-        <p><?php echo $a ?></p>
+        <p><?php echo $id_user2 ?></p>
 
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">

@@ -32,11 +32,13 @@ class User extends CI_Controller {
                 $select = $this->db->get_where('perusahaan', array('id_user' => $cek['id_user']))->row();
                 $data = array('logged_in' => true,
                     'loger' => $select->nama_perusahaan,
-                    'status'=>$cek['status']);
+                    'status'=>$cek['status'],
+                    'id_user'=>$cek['id_user']);
                 $sql = "update user set last_login = ";
                 $_SESSION['status'] = $data['status'];
                 $_SESSION['user'] = $data['loger'];
                 $_SESSION['logged_in'] = $data['logged_in'];
+                $_SESSION['id_user'] = $cek['id_user'];
 
                 $this->load->view('Perusahaan_Home');
 

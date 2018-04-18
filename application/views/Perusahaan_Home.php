@@ -6,6 +6,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link href="<?=base_url();?>assets/css/CSS_Admin_Home.css" rel="stylesheet" />
+    <link href="<?=base_url();?>assets/css/profil.css" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/sweetalert/sweetalert.css'); ?>">
     <script type="text/javascript" src="<?php echo base_url('assets/js/jquery.js'); ?>"></script>
@@ -52,7 +53,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </div>
                 <div class="collapse navbar-collapse">
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="" target="_blank" style="color:white;"><i class=""></i><?php echo $_SESSION['user'];?></a></li>
+                        <li><a href="" target="_blank" style="color:white;"><i class=""></i><?php
+                                if ($_SESSION['user']){
+                                    echo $_SESSION['user'];
+                                }else{
+                                    header("Location: /web-company/index.php/Perusahaan");
+                                }
+                                ?></a></li>
                         <li><a href="<?php echo site_url('User/logout') ?>" style="color:white;" ><i class="glyphicon glyphicon-log-out" style="color:white;"></i>Logout</a></li>
                     </ul>
                 </div>
