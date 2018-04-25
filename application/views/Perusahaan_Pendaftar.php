@@ -45,7 +45,7 @@
                                 <div class="row" style="margin-bottom: 50px">
                                     <div class="col-md-1 col-md-offset-4">
                                         <img style="width: 170px; height: 150px;"
-                                             src="data:image/jpeg;base64,<?php echo base64_encode($pndf->foto)?>"/>
+                                             src="<?php echo $pndf->foto ?>"/>
                                     </div>
                                 </div>
 

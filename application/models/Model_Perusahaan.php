@@ -4,22 +4,34 @@ class Model_Perusahaan extends CI_Model {
 
 
 
-    public function createPerusahaan($nama, $username, $email, $password){
+    public function createPerusahaan($nama,$email, $username, $password){
 
-       /* $this->db->insert("perusahaan",array("nama_perusahaan"=> $nana));
 
-        $this->db->insert("user",array("username"=>$username_daftar, "password" =>$password_daftar, "status"=>"P"));
+       $insert = $this->db->insert("user",array("username"=>$username,
+            "email_user"=>$email, "password" =>$password, "status"=>"P"));
 
-        return $this->db->insert_id();*/
+        if ($insert){
+            $this->db->insert("perusahaan",array("nama_perusahaan"=> $nama,
+                "id_user"=> $this->getIdUserFromUsername($username),
+                "id_provinsi"=>0, "id_kota"=>0));
+        }
+
     }
 
-    public function tampilkanPelamar(){
+    public function getIdUserFromUsername($username){
+        $sql = "SELECT user.id_user FROM user WHERE username ='$username'";
+
+        return $this->db->query($sql)->row()->id_user;
+    }
+
+    public function tampilkanPelamar($id_perusahaan){
 
         $sql = "SELECT b.*, lowongan.nama_lowongan FROM
-(SELECT a.*, pelamar.id_pelamar, pelamar.id_lowongan, pelamar.cv, pelamar.periksa FROM
+(SELECT a.*, k.id_pelamar, k.id_lowongan, k.cv, k.periksa FROM
 (SELECT user.email_user, mahasiswa.id_mhs, mahasiswa.nama_depan, mahasiswa.nama_belakang, mahasiswa.perguruan_tinggi,mahasiswa.hp,
 mahasiswa.foto, mahasiswa.linkedin FROM mahasiswa INNER JOIN user ON mahasiswa.id_user = user.id_user) AS a
-INNER JOIN pelamar ON a.id_mhs = pelamar.id_mhs) AS b INNER JOIN lowongan ON b.id_lowongan = lowongan.id_lowongan";
+INNER JOIN (SELECT pelamar.* FROM pelamar INNER JOIN
+(SELECT lowongan.id_lowongan FROM lowongan WHERE id_perusahaan = '$id_perusahaan') as z ON pelamar.id_lowongan = z.id_lowongan) AS k ON a.id_mhs = k.id_mhs) AS b INNER JOIN lowongan ON b.id_lowongan = lowongan.id_lowongan";
 
         return $this->db->query($sql);
 
@@ -46,8 +58,8 @@ INNER JOIN pelamar ON a.id_mhs = pelamar.id_mhs) AS b INNER JOIN lowongan ON b.i
 
     }
 
-    public function getLowongan(){
-        $sql = "SELECT * FROM lowongan";
+    public function getLowongan($id_perusahaan){
+        $sql = "SELECT * FROM lowongan WHERE id_perusahaan='$id_perusahaan'";
 
         return $this->db->query($sql);
     }
@@ -77,7 +89,7 @@ $status,$lokasi){
         $updateData=array(
             "nama_lowongan"=> $nama_lowongan,
             "deskripsi"=> $deskripsi,
-            "dateline_submit" =>$waktu,
+            "deadline_submit" =>$waktu,
             "jenis_magang" => $jenis_magang,
             "lokasi" => $lokasi,
             "status" =>$status);
@@ -103,6 +115,70 @@ INNER JOIN kabupaten_kota ON a.id_kota = kabupaten_kota.id_kabkot WHERE id_user 
 
         return $this->db->query($sql);
     }
+
+    public function updateEmailPerusahaan($email, $id_user){
+        $updateEmail= array(
+            'email_user' => $email
+        );
+
+        $this->db->where('id_user',$id_user);
+        $this->db->update('user',$updateEmail);
+
+    }
+
+    public function updateProfilPerusahaan($logo, $nama_perusahaan, $jalan,
+                                           $link_website,$id_perusahaan,
+                                           $id_provinsi,$id_kabkot,$email,
+                                           $industri){
+
+        $data = array(
+            'logo' => $logo,
+            'nama_perusahaan' => $nama_perusahaan,
+            'link_website' => $link_website,
+            'alamat_perusahaan' => $jalan,
+            'id_provinsi' => $id_provinsi,
+            'id_kota' => $id_kabkot,
+            'email' =>$email,
+            'jenis_industri'=>$industri
+        );
+
+        $this->db->where('id_perusahaan', $id_perusahaan);
+        $this->db->update('perusahaan', $data);
+
+    }
+
+
+    public function getLogoPerusahaan($id_perusahaan){
+
+        $sql ="SELECT perusahaan.logo FROM perusahaan WHERE id_perusahaan = '$id_perusahaan'";
+
+        return $this->db->query($sql)->row()->logo;
+    }
+
+    public function getProvinsi(){
+
+        $sql = "SELECT * FROM provinsi";
+
+        return $this->db->query($sql);
+    }
+
+    public function getKabkot($id_provinsi){
+        $sql = "SELECT * FROM kabupaten_kota WHERE id_provinsi ='$id_provinsi'";
+        return $this->db->query($sql);
+    }
+
+
+    public function getIdPerusahaanFromIdUser($id_user){
+        $sql = "SELECT perusahaan.id_perusahaan FROM perusahaan WHERE id_user='$id_user'";
+
+        return $this->db->query($sql)->row()->id_perusahaan;
+    }
+
+    public function getId($sql){
+       return $this->db->query($sql)->row();
+    }
+
+
 
 }
 ?>

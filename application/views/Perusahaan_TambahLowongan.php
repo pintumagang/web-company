@@ -38,6 +38,11 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                         <div class="center-block">
                                             <form method="post" action="<?php echo site_url("Perusahaan/tambahLowongan")?>">
 
+                                                <div class="form-group">
+                                                    <input name="id_perusahaan" type="hidden" value="<?php echo $this->Model_Perusahaan->getIdPerusahaanFromIdUser($_SESSION['id_user']) ?>">
+                                                </div>
+
+
                                                 <div class="form-group ">
                                                     <input class="form-control" id="name" name="namaLowongan" placeholder="Nama Lowongan" type="text"/>
                                                 </div>
@@ -56,14 +61,30 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group ">
-                                                    <input class="form-control" id="name1" name="lokasi" placeholder="Lokasi" type="text"/>
+                                                <div class="form-group">
+                                                    <select class="form-control" name="lokasi" id="provinsi">
+                                                        <?php
+                                                        foreach ($provinsi as $prov){
+                                                            ?>
+                                                            <?php
+                                                            if ($prov->nama_provinsi
+                                                                == $low->lokasi){
+                                                                echo "<option value='$prov->nama_provinsi' selected='selected'>".
+                                                                    $prov->nama_provinsi
+                                                                    ."</option>";
+                                                            }else{
+                                                                echo "<option value='$prov->nama_provinsi'>".
+                                                                    $prov->nama_provinsi.
+                                                                    "</option>";
+                                                            }
+                                                            ?>
+
+                                                        <?php } ?>
+                                                    </select>
                                                 </div>
-                                                <div class="form-group ">
-                                                    <label class="control-label " for="select">
-                                                        Select a Choice
-                                                    </label>
-                                                    <select class="select form-control" id="select" name="jenisMagang">
+
+
+                                                <select class="select form-control" id="select" name="jenisMagang">
                                                         <option value="fulltime">
                                                             fulltime
                                                         </option>
@@ -112,12 +133,19 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
     </thead>
     <tbody>
     <?php
-    foreach ($daftarLowongan as $low) {
-        ?>
+    foreach ($daftarLowongan as $low) {?>
         <tr><td><?php echo $low->id_lowongan?></td>
             <td><?php echo $low->nama_lowongan?></td>
-            <td><?php echo $low->deskripsi?></td>
-            <td><?php echo $low->dateline_submit?></td>
+            <td>
+                <?php
+                    if (strlen($low->deskripsi) > 15){
+                       echo substr($low->deskripsi,0,15);
+                    }else{
+                        echo $low->deskripsi;
+                    }
+               ?>
+            </td>
+            <td><?php echo $low->deadline_submit?></td>
             <td><?php echo $low->lokasi?></td>
             <td><?php echo $low->jenis_magang?></td>
             <td><form method="post" action="<?php echo site_url("Perusahaan/statusDaftarLowongan")?>">
@@ -147,9 +175,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                     </div>
 
                                     <div class="form-group ">
-                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10">
-                                            <?php echo $low->deskripsi?>
-                                        </textarea>
+                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"><?php echo $low->deskripsi?></textarea>
                                     </div>
 
                                     <div class="form-group ">
@@ -158,13 +184,32 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                                 <i class="fa fa-calendar">
                                                 </i>
                                             </div>
-                                            <input class="form-control" value="<?php echo $low->dateline_submit?>" id="date" name="date2" placeholder="YYYY-DD-MM" type="text"/>
+                                            <input class="form-control" value="<?php echo $low->deadline_submit?>" id="date" name="date2" placeholder="YYYY-DD-MM" type="text"/>
                                         </div>
                                     </div>
 
-                                    <div class="form-group ">
-                                        <input class="form-control"  value="<?php echo $low->lokasi?>" id="name1" name="lokasi2" placeholder="Lokasi" type="text"/>
+                                    <div class="form-group">
+                                        <select class="form-control" name="lokasi2" id="provinsi">
+                                            <?php
+                                            foreach ($provinsi as $prov){
+                                                ?>
+                                                <?php
+                                                if ($prov->nama_provinsi
+                                                    == $low->lokasi){
+                                                    echo "<option value='$prov->nama_provinsi' selected='selected'>".
+                                                        $prov->nama_provinsi
+                                                        ."</option>";
+                                                }else{
+                                                    echo "<option value='$prov->nama_provinsi'>".
+                                                        $prov->nama_provinsi.
+                                                        "</option>";
+                                                }
+                                                ?>
+
+                                            <?php } ?>
+                                        </select>
                                     </div>
+
                                     <div class="form-group ">
                                         <label class="control-label " for="select">
                                             Select a Choice

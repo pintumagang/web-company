@@ -22,7 +22,6 @@ class User extends CI_Controller {
 
 
         if ($this->session->userdata('user') == FALSE && $this->session->userdata('logged_in') == FALSE ) {
-
             $this->load->model('Model_Login');
             $user = $this->input->post('username',true);
             $pass = $this->input->post('pass',true);

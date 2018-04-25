@@ -17,8 +17,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <!-- Trigger the modal with a button -->
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Open Modal</button>
 
-        <p><?php echo $id_user2 ?></p>
 
+
+    <!--<img src="<?/*=base_url();*/?>/assets/images/bg-01.jpg" width="200px" height="200px">-->
+
+    <form action="<?php echo site_url("Perusahaan/test_modal")?>" method="post">
+        <input type="file" name="file">
+        <input type="submit" name="submit">
+    </form>
     <!-- Modal -->
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
@@ -43,6 +49,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
         </div>
     </div>
 
+    
 </div>
 
 </body>

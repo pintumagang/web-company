@@ -3,100 +3,218 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 include ('User.php');
 class Perusahaan extends CI_Controller {
 
-    public function __construct(){
+    public function __construct()
+    {
+
+
         parent::__construct();
         $this->load->helper('url');
+        $this->load->helper('file');
         $this->load->library('form_validation');
         $this->load->model('Model_Perusahaan');
     }
 
+    public function index()
+    {
+        if ($this->session->userdata('user') == FALSE && $this->session->userdata('logged_in') == FALSE ) {
+            $this->load->view('Login');
+        }else{
+
+            if ($this->session->userdata('status') == 'P'){
+                $this->load->view('Perusahaan_Home');
+            }else{
+                $this->load->view('Perusahaan_Home');
+            }
+
+        }
+
+    }
+
 
     public function View_Beranda (){
-        $this->load->view('Perusahaan_Home');
+
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else{
+            $this->load->view('Perusahaan_Home');
+        }
+
     }
 
     public function View_Pendaftar(){
 
-        $dataPendaftar['pendaftar']	= $this->Model_Perusahaan->tampilkanPelamar()->result();
 
-        $this->load->view('Perusahaan_Home', $dataPendaftar);
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else{
+
+            $id_perusahaan = $this->Model_Perusahaan->
+            getIdPerusahaanFromIdUser($_SESSION['id_user']);
+
+            $dataPendaftar['pendaftar']	= $this->Model_Perusahaan->
+            tampilkanPelamar($id_perusahaan)->result();
+
+            $this->load->view('Perusahaan_Home', $dataPendaftar);
+
+        }
+
+
     }
 
     public function View_TambahLowongan(){
 
-        $dataLowongan['daftarLowongan']= $this->Model_Perusahaan->getLowongan()->result();
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
 
-        $this->load->view('Perusahaan_Home', $dataLowongan);
+
+           $id_perusahaan = $this->Model_Perusahaan->
+            getIdPerusahaanFromIdUser($_SESSION['id_user']);
+
+
+            $dataLowongan['daftarLowongan'] = $this->Model_Perusahaan->
+            getLowongan($id_perusahaan)->result();
+
+            $dataLowongan['provinsi'] = $this->Model_Perusahaan->
+            getProvinsi()->result();
+
+            $this->load->view('Perusahaan_Home', $dataLowongan);
+
+        }
 
     }
 
     public function View_EditProfil(){
 
-        $dataPerusahaan['dataPerusahaan']= $this->Model_Perusahaan->getPerusahaan()->result();
-        $this->load->view('Perusahaan_Home', $dataPerusahaan);
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else{
+
+            $data['dataPerusahaan']= $this->Model_Perusahaan->
+            getPerusahaan()->result();
+
+            $data['provinsi'] = $this->Model_Perusahaan->
+            getProvinsi()->result();
+
+            $this->load->view('Perusahaan_Home', $data);
+
+
+        }
+
+
     }
+
+
 	public function view_register(){
 
-        $this->load->view('Registrasi');
+        if ($this->session->userdata('user') == FALSE && $this->session->userdata('logged_in') == FALSE ) {
+            $this->load->view('Registrasi');
+        }else{
+            $this->load->view('Perusahaan_Home');
+        }
+
+
 
        /* if (isset($_POST["submit_daftar"])){
                 $this->register();
         }*/
-	}
+
+
+    }
+
+
+   
+
 
     /**
      *
      */
     public function tampilkanCV(){
 
-       $cv_id = $this->input->post('cv',true);
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
 
-        $cv['data'] = $this->Model_Perusahaan->getCV($cv_id)->result();
+            $cv_id = $this->input->post('cv', true);
 
-        $this->load->view('CV',$cv);
+            $cv['data'] = $this->Model_Perusahaan->getCV($cv_id)->result();
+
+            $this->load->view('CV', $cv);
+
+        }
+
 
 
     }
 
     public function periksaDaftarPelamar(){
 
-        $id = $this->input->post('id',true);
-        $status_periksa = $this->input->post('periksa',true);
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
 
-        $this->Model_Perusahaan->updateStatusPemeriksaanPelamar($id,$status_periksa);
+            $id = $this->input->post('id', true);
+            $status_periksa = $this->input->post('periksa', true);
 
-        redirect('Perusahaan/View_Pendaftar?module=Pendaftar');
+            $this->Model_Perusahaan->updateStatusPemeriksaanPelamar($id, $status_periksa);
 
+            redirect('Perusahaan/View_Pendaftar?module=Pendaftar');
+        }
     }
 
     public function statusDaftarLowongan(){
 
-        $id = $this->input->post('id',true);
-        $status_periksa = $this->input->post('periksa',true);
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
 
-        $this->Model_Perusahaan->updateStatusLowongan($id,$status_periksa);
+            $id = $this->input->post('id', true);
+            $status_periksa = $this->input->post('periksa', true);
 
-        //$this->load->view('Perusahaan_Home');
-        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
+            $this->Model_Perusahaan->updateStatusLowongan($id, $status_periksa);
 
+            //$this->load->view('Perusahaan_Home');
+            redirect('Perusahaan/View_TambahLowongan?module=TambahLowongan');
+        }
     }
 
     public function tambahLowongan(){
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
+
+            $data = array(
+                'nama_lowongan' => $this->input->post('namaLowongan'),
+                'deskripsi' => $this->input->post('deskripsi'),
+                'deadline_submit' => $this->input->post('date'),
+                'jenis_magang' => $this->input->post('jenisMagang'),
+                'status' => $this->input->post('status'),
+                'lokasi' => $this->input->post('lokasi'),
+                'id_perusahaan' => $this->input->post('id_perusahaan')
+
+            );
 
 
-        $data = array(
-            'nama_lowongan' => $this->input->post('namaLowongan'),
-            'deskripsi' => $this->input->post('deskripsi'),
-            'dateline_submit' => $this->input->post('date'),
-            'jenis_magang' => $this->input->post('jenisMagang'),
-             'status' => $this->input->post('status'),
-            'lokasi' => $this->input->post('lokasi')
-        );
-
-
-        $this->Model_Perusahaan->insertLowongan($data);
-        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
-
+            $this->Model_Perusahaan->insertLowongan($data);
+            redirect('Perusahaan/View_TambahLowongan?module=TambahLowongan');
+            //$this->load->view('Perusahaan_Home');
+        }
         /*$waktu = explode("/",$this->input->post('date'));
         $time = $waktu[2].'-'.$waktu[1].'-'.$waktu[0];*/
        /* $data = array(
@@ -112,60 +230,183 @@ class Perusahaan extends CI_Controller {
     }
 
     public function updateLowongan(){
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
+            $id = $this->input->post('id', true);
+            $nama_lowongan = $this->input->post('namaLowongan2', true);
+            $deskripsi = $this->input->post('deskripsi2', true);
+            $time = $this->input->post('date2');
+            $jenis_magang = $this->input->post('jenisMagang2', true);
+            $lokasi = $this->input->post('lokasi2', true);
+            $status = $this->input->post('status2', true);
 
-           $id = $this->input->post('id', true);
-           $nama_lowongan = $this->input->post('namaLowongan2',true);
-           $deskripsi =$this->input->post('deskripsi2', true);
-           $time = $this->input->post('date2');
-           $jenis_magang = $this->input->post('jenisMagang2', true);
-           $lokasi =$this->input->post('lokasi2',true);
-           $status = $this->input->post('status2',true);
 
+            $this->Model_Perusahaan->updateLowonganM(
+                $id, $nama_lowongan, $deskripsi, $time, $jenis_magang, $status, $lokasi
+            );
 
-        $this->Model_Perusahaan->updateLowonganM(
-            $id,$nama_lowongan,$deskripsi,$time,$jenis_magang,$status,$lokasi
-        );
-
-        //$this->load->view('Perusahaan_Home');
-        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
+            //$this->load->view('Perusahaan_Home');
+            redirect('Perusahaan/View_TambahLowongan?module=TambahLowongan');
+        }
 
     }
 
     public function hapusLowongan(){
-        $id = $this->input->post('id', true);
-        $this->Model_Perusahaan->hapusLowongan($id);
-        //$this->load->view('Perusahaan_Home');
-        redirect('Perusahaan/View_Pendaftar?module=TambahLowongan');
+
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
+            $id = $this->input->post('id', true);
+            $this->Model_Perusahaan->hapusLowongan($id);
+            redirect('Perusahaan/View_TambahLowongan?module=TambahLowongan');
+            //$this->load->view('Perusahaan_Home');
+        }
     }
 
+    public function updateProfilPerusahaan()
+    {
+        if ($this->session->userdata('user') == FALSE &&
+            $this->session->userdata('logged_in') == FALSE )
+        {
+            $this->load->view('Login');
+        }else {
+            $gambar = $this->Model_Perusahaan->
+            getLogoPerusahaan($this->input->post('idPerusahaan', true));
+
+            $inputGambar = $this->input->post('input-image', true);
+
+            //cek ada gambar yang di inputkan atau tidak
+
+
+                $config = array(
+                    'upload_path' => '../mobile-android/image/',
+                    'allowed_types' => 'jpg|jpeg|png|bmp',
+                    'max_size' => 100000,
+                    'filename' => url_title($this->input->post('input-image', true))
+                );
+
+                $this->load->library('upload', $config);
+
+                if ($this->upload->do_upload('input-image')) {
+                    //echo $config['filename'];
+                    $name = str_replace(' ', '_', $_FILES["input-image"]["name"]);
+                    $gambar = '/' . $config['upload_path'] . $name;
+                }
+
+
+                //$gambar = "test";
+                //echo $_FILES["input-image"]["name"];
 
 
 
-    public function register(){
 
-/*
-        $nama_perusahaan = $this->input->post('nama_perusahaan',true);
-        $nama_jalan = $this->input->post('nama_jalan',true);
-        $provinsi = $this->input->post('provinsi',true);
-        $kota = $this->input->post('kota',true);
-        $negara = $this->input->post('negara',true);
-        $kode_pos = $this->input->post('kode_pos',true);
-        $no_tlp = $this->input->post('no_tlp',true);
-        $email_daftar = $this->input->post('email_daftar',true);
-        $username_daftar = $this->input->post('username_daftar',true);
-        $password_daftar = $this->input->post('password_daftar',true);
-        $jenis_industri = $this->input->post('jenis_industri',true);
-        $website = $this->input->post('website',true);
-	    $this->load->model('Model_Perusahaan');
+            $this->Model_Perusahaan->updateProfilPerusahaan(
+                $gambar,
+                $this->input->post('namaPerusahaan', true),
+                $this->input->post('jalan', true),
+                $this->input->post('linkWebsite', true),
+                $this->input->post('idPerusahaan', true),
+                $this->input->post('provinsi', true),
+                $this->input->post('kabkot', true),
+                $this->input->post('email', true),
+                $this->input->post('industri', true)
+                );
 
-	    $this->Model_Perusahaan->createPerusahaan($nama_perusahaan, $nama_jalan, $provinsi,
-            $kota, $negara, $kode_pos, $no_tlp,
-            $email_daftar, $username_daftar, $password_daftar, $jenis_industri, $website);*/
+            $this->Model_Perusahaan->updateEmailPerusahaan(
+                $this->input->post('email', true),
+                $this->input->post('idUser', true)
+            );
 
+            /*$this->Model_Perusahaan->updateProvinsiPerusahaan(
+                $this->input->post('provinsi', true),
+                $this->input->post('idPerusahaan', true)
+
+            );
+
+
+            $this->Model_Perusahaan->updateKabkotPerusahaan(
+                $this->input->post('kota', true),
+                $this->input->post('idPerusahaan', true)
+
+            );*/
+
+            redirect('Perusahaan/View_EditProfil?module=EditProfil');
+            //$this->View_EditProfil();*
+
+        }
     }
+        public function uploadImagePerusahaan(){
+
+
+
+            /*if(array_key_exists('input-image', $_FILES)){
+                if ($_FILES['input-image']['error'] === UPLOAD_ERR_OK) {
+
+
+                    move_uploaded_file( $_FILES['input-image']['tmp_name'], getcwd().'/assets/'.$_FILES["input-image"]["name"]);
+                    echo 'upload was successful';
+                } else {
+                    die("Upload failed with error code " . $_FILES['input-image']['error']);
+                }
+            }*/
+
+            $config = array(
+                'upload_path' => '../mobile-android/image/',
+                'allowed_types' => 'jpg|jpeg|png|bmp',
+                'max_size' =>100000,
+                'filename' => url_title($this->input->post('input-image',true))
+            );
+
+            $this->load->library('upload', $config);
+
+            if ($this->upload->do_upload('input-image')){
+                echo $config['filename'];
+            }else{
+                echo "tel";
+            }
+        }
+
+        public function tampilkanKabkot(){
+
+            $data= $this->Model_Perusahaan->
+            getKabkot($this->input->post('id_provinsi'))->result();
+
+            $output = '<option value="" >pilih kabupaten kota</option>';
+                foreach($data as $d){
+
+                    $output .= '<option value="'.$d->id_kabkot.'" >'.$d->nama_kabkot.'</option>';
+                }
+
+                echo $output;
+        }
+
+
+
+        public function register(){
+
+            $idprovinsidankabkot = 0;
+            $this->Model_Perusahaan->createPerusahaan(
+                $this->input->post('nama'),
+                $this->input->post('email'),
+                $this->input->post('username'),
+                md5($this->input->post('pass')),
+                $idprovinsidankabkot
+            );
+
+            $this->load->view('Login');
+        }
 
     public function test_modal(){
-        $this->load->view('Modal_Test');
+        //$this->load->view('Modal_Test');
+
+        $destFile = "/../mobile-android/image/".$_FILES['file']['name'];
+        move_uploaded_file( $_FILES['file']['tmp_name'], $destFile );
+        
     }
 
 }
