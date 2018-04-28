@@ -12,6 +12,7 @@ jQuery(document).ready(function(){
     $('#tommbolTambahLowongan').on('click', function(e){
         e.preventDefault();
         $( '#' + $(this).data('modal-id') ).modal();
+
     });
 
     /*
@@ -19,6 +20,7 @@ jQuery(document).ready(function(){
     */
     $('#tambahLowonganForm input[type="text"], .registration-form textarea').on('focus', function() {
         $(this).removeClass('input-error');
+
     });
 
     $('#tambahLowonganForm').on('submit', function(e) {
@@ -59,6 +61,8 @@ jQuery(document).ready(function(){
 
 
     });
+
+
 
 
 });

@@ -66,7 +66,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                                             <i class="fa fa-calendar">
                                                             </i>
                                                         </div>
-                                                        <input class="form-control" id="date" name="date" placeholder="YYYY-DD-MM" type="text"/>
+                                                        <input class="form-control date" id="date" name="date" placeholder="YYYY-DD-MM" type="text"/>
                                                     </div>
                                                 </div>
 
@@ -174,17 +174,18 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                             <div class="modal-header">
                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                 <h4 class="modal-title">Edit</h4>
+
                             </div>
                             <div class="modal-body" >
                                 <form id="updateLowonganForm" method="post" action="<?php echo site_url("Perusahaan/updateLowongan")?>">
                                     <input name="id" type="hidden" value="<?php echo $low->id_lowongan?>">
 
                                     <div class="form-group ">
-                                        <input class="form-control" value="<?php echo $low->nama_lowongan?>" id="name" name="namaLowongan2" placeholder="Nama Lowongan" type="text"/>
+                                        <input class="form-control" value="<?php echo $low->nama_lowongan?>" id="namaLowongan2" name="namaLowongan2" placeholder="Nama Lowongan" type="text"/>
                                     </div>
 
                                     <div class="form-group ">
-                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="textarea" name="deskripsi2" rows="10"><?php echo $low->deskripsi?></textarea>
+                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="deskripsi2" name="deskripsi2" rows="10"><?php echo $low->deskripsi?></textarea>
                                         <p id="massageE"></p>
                                     </div>
 
@@ -194,7 +195,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                                 <i class="fa fa-calendar">
                                                 </i>
                                             </div>
-                                            <input class="form-control" value="<?php echo $low->deadline_submit?>" id="date" name="date2" placeholder="YYYY-DD-MM" type="text"/>
+                                            <input class="form-control date" value="<?php echo $low->deadline_submit?>" id="<?php echo $low->deadline_submit?>" name="date2" placeholder="YYYY-DD-MM" type="text"/>
                                         </div>
                                     </div>
 
@@ -221,9 +222,6 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="control-label " for="select">
-                                            Select a Choice
-                                        </label>
                                         <select class="select form-control" value="<?php echo $low->jenis_magang?>" id="select" name="jenisMagang2">
                                             <option value="fulltime">
                                                 fulltime
@@ -234,9 +232,6 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                         </select>
                                     </div>
                                     <div class="form-group ">
-                                        <label class="control-label " for="select1">
-                                            Select a Choice
-                                        </label>
                                         <select class="select form-control" value="<?php echo $low->status?>" id="select1" name="status2">
                                             <option value="aktif">
                                                 aktif
@@ -353,16 +348,25 @@ border: none;background: none;" type="button" data-toggle="modal" data-target="#
 
 
 <script>
-    $(document).ready(function(){
-        var date_input=$('input[name="date"]'); //our date input has the name "date"
+    /*$(document).ready(function(){
+        var date_input=$('.date'); //our date input has the name "date"
         var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
         date_input.datepicker({
             format: 'yyyy-mm-dd',
             container: container,
             todayHighlight: true,
             autoclose: true,
-        })
-    })
+        });
+
+    })*/
+    //var container=$('.bootstrap-iso form').length>0 ? $('.bootstrap-iso form').parent() : "body";
+    $(function() {
+        $( ".date" ).datepicker({
+            format: 'yyyy-mm-dd',
+            //container: container,
+            todayHighlight: true,
+            autoclose: true, });
+    });
 
 </script>
 
