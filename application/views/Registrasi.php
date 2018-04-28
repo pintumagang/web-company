@@ -44,7 +44,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 						Register
 					</span>
 
-                <div class="gagallogin"><?php echo $this->session->flashdata('error')?></div>
+
+                <div class="gagallogin">
+                    <?php echo $massage_kosong ?>
+                </div>
 
                 <br>
 
@@ -52,10 +55,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input class="input100" type="text" name="nama" placeholder="Nama">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
+                <div >
+                    <p style="align: left; color: red"><?php echo $massage_namaUdahAda ?></p>
+                </div>
+
 
                 <div class="wrap-input100 validate-input" data-validate = "Enter username">
                     <input class="input100" type="text" name="email" placeholder="email">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
+                </div>
+                <div>
+                    <p style="align: left; color: red"><?php echo $massage_emailUdahAda ?></p>
+                </div>
+
+                <div>
+                    <p style="align: left; color: red"><?php echo $massage_formatEmailSalah ?></p>
                 </div>
 
 
@@ -64,11 +78,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                     <input class="input100" type="text" name="username" placeholder="Username">
                     <span class="focus-input100" data-placeholder="&#xf207;"></span>
                 </div>
+                <div >
+                    <p style="align: left; color: red"><?php echo $massage_usernameUdahAda ?></p>
+                </div>
 
                 <div class="wrap-input100 validate-input" data-validate="Enter password">
                     <input class="input100" type="password" name="pass" placeholder="Password">
                     <span class="focus-input100" data-placeholder="&#xf191;"></span>
                 </div>
+
 
                 <div class="container-login100-form-btn">
                     <button class="login100-form-btn">

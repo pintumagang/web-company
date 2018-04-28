@@ -16,7 +16,7 @@
         <th>jenis magang</th>
         <th>Status</th>
         <th><div>
-                <button style="padding: 0;
+                <button id="tommbolTambahLowongan" style="padding: 0;
 border: none;
 background: none;" type="button" data-toggle="modal" data-target="#m"><i class="fa fa-plus fa-2x" aria-hidden="true"></i></button>
 
@@ -36,20 +36,29 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                 <div class="container-fluid">
                                     <div class="row">
                                         <div class="center-block">
-                                            <form method="post" action="<?php echo site_url("Perusahaan/tambahLowongan")?>">
+                                            <form id="tambahLowonganForm" method="post" action="<?php echo site_url("Perusahaan/tambahLowongan")?>">
 
                                                 <div class="form-group">
                                                     <input name="id_perusahaan" type="hidden" value="<?php echo $this->Model_Perusahaan->getIdPerusahaanFromIdUser($_SESSION['id_user']) ?>">
                                                 </div>
 
 
-                                                <div class="form-group ">
-                                                    <input class="form-control" id="name" name="namaLowongan" placeholder="Nama Lowongan" type="text"/>
+                                                <div class="form-group" id="InamaLowongan">
+                                                    <input class="form-control" id="namaLowongann" name="namaLowongan" placeholder="Nama Lowongan" type="text"/>
+                                                    <p id="masageNamaLowongan"></p>
                                                 </div>
 
-                                                <div class="form-group ">
-                                                    <textarea class="form-control" cols="40" name="deskripsi" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"></textarea>
+
+                                                <div class="form-group">
+                                                    <textarea  id="deskripsii" class="form-control" cols="40" name="deskripsi" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"></textarea>
+                                                    <p class="text-muted" id="dss"></p>
                                                 </div>
+
+                                                <!--<script>
+                                                    function count_up(obj) {
+                                                        document.getElementById('dss').innerHTML = obj.value.length;
+                                                    }
+                                                </script>-->
 
                                                 <div class="form-group ">
                                                     <div class="input-group">
@@ -62,7 +71,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <select class="form-control" name="lokasi" id="provinsi">
+                                                    <select class="form-control" name="lokasi" id="provinsiii">
                                                         <?php
                                                         foreach ($provinsi as $prov){
                                                             ?>
@@ -108,7 +117,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                                 </div>
                                                 <div class="form-group">
                                                     <div>
-                                                        <button class="btn btn-primary " name="submit" type="submit">
+                                                        <button  id="submitTambahLowongan" class="btn btn-primary" name="submit" type="submit">
                                                             Submit
                                                         </button>
                                                     </div>
@@ -167,7 +176,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                 <h4 class="modal-title">Edit</h4>
                             </div>
                             <div class="modal-body" >
-                                <form method="post" action="<?php echo site_url("Perusahaan/updateLowongan")?>">
+                                <form id="updateLowonganForm" method="post" action="<?php echo site_url("Perusahaan/updateLowongan")?>">
                                     <input name="id" type="hidden" value="<?php echo $low->id_lowongan?>">
 
                                     <div class="form-group ">
@@ -175,7 +184,8 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                     </div>
 
                                     <div class="form-group ">
-                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="textarea" name="textarea" rows="10"><?php echo $low->deskripsi?></textarea>
+                                        <textarea class="form-control" cols="40" name="deskripsi2" placeholder="Deskripsi Pekerjaan" id="textarea" name="deskripsi2" rows="10"><?php echo $low->deskripsi?></textarea>
+                                        <p id="massageE"></p>
                                     </div>
 
                                     <div class="form-group ">
@@ -189,7 +199,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                     </div>
 
                                     <div class="form-group">
-                                        <select class="form-control" name="lokasi2" id="provinsi">
+                                        <select class="form-control" name="lokasi2" id="provinsi2">
                                             <?php
                                             foreach ($provinsi as $prov){
                                                 ?>
@@ -238,7 +248,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
                                     </div>
                                     <div class="form-group">
                                         <div>
-                                            <button class="btn btn-primary " name="submit" type="submit">
+                                            <button class="btn btn-primary "  name="submit" type="submit">
                                                 Submit
                                             </button>
                                         </div>
@@ -256,7 +266,7 @@ background: none;" type="button" data-toggle="modal" data-target="#m"><i class="
 
                 <div class="row">
                     <div class="col-sm-6">
-                        <button style="padding: 0;
+                        <button id="tombolUpdateLowongan" style="padding: 0;
 border: none;background: none;" type="button" data-toggle="modal" data-target="#<?php echo $low->id_lowongan?>"><i class="fa fa-edit fa-2x" aria-hidden="true"></i></button>
                     </div>
 
@@ -355,6 +365,26 @@ border: none;background: none;" type="button" data-toggle="modal" data-target="#
     })
 
 </script>
+
+
+<!--<script>
+    $(document).ready(function () {
+        $('#namaLowongann').change(function () {
+            var namaLowongan = $(this).val();
+            $.ajax({
+                url: "<?php /*echo site_url('Perusahaan/ceknamaLowongan')*/?>",
+                method:"POST",
+                data:{namaLowongan: namaLowongan)},
+                datatype:"text",
+                success:function (data) {
+
+                    $('#InamaLowongan').append(data);
+
+                }
+            })
+        })
+    });
+</script>-->
 
 
 

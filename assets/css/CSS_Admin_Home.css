@@ -116,3 +116,11 @@ table td {
 #example td {
   white-space:inherit;
 }
+
+.input-error {
+    border: 3px solid red !important;
+}
+
+.input-error2 {
+    border: 3px solid red !important;
+}

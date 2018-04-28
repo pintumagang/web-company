@@ -21,6 +21,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
     <!--<img src="<?/*=base_url();*/?>/assets/images/bg-01.jpg" width="200px" height="200px">-->
 
+    <?php echo gettype($error) ?>
+
+    <?php foreach ($error as $key => $value){
+
+         if ($key == 'error_kosong'){
+             echo "teling";
+         }
+
+    }?>
+
     <form action="<?php echo site_url("Perusahaan/test_modal")?>" method="post">
         <input type="file" name="file">
         <input type="submit" name="submit">

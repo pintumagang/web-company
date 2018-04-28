@@ -13,7 +13,7 @@ class Model_Perusahaan extends CI_Model {
         if ($insert){
             $this->db->insert("perusahaan",array("nama_perusahaan"=> $nama,
                 "id_user"=> $this->getIdUserFromUsername($username),
-                "id_provinsi"=>0, "id_kota"=>0));
+                "id_provinsi"=>-1, "id_kota"=>-2));
         }
 
     }
@@ -176,6 +176,17 @@ INNER JOIN kabupaten_kota ON a.id_kota = kabupaten_kota.id_kabkot WHERE id_user 
 
     public function getId($sql){
        return $this->db->query($sql)->row();
+    }
+
+    public function udahAda ($nama_tabel, $nama_kolom, $nilai_kolom){
+            $sql ="SELECT * FROM $nama_tabel WHERE $nama_kolom='$nilai_kolom'";
+            return $this->db->query($sql)->row();
+    }
+
+    public function generalSelect($sql){
+
+        return $this->db->query($sql);
+
     }
 
 

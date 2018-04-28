@@ -84,6 +84,7 @@ class Perusahaan extends CI_Controller {
             $dataLowongan['provinsi'] = $this->Model_Perusahaan->
             getProvinsi()->result();
 
+
             $this->load->view('Perusahaan_Home', $dataLowongan);
 
         }
@@ -98,12 +99,16 @@ class Perusahaan extends CI_Controller {
             $this->load->view('Login');
         }else{
 
+
+
             $data['dataPerusahaan']= $this->Model_Perusahaan->
             getPerusahaan()->result();
 
             $data['provinsi'] = $this->Model_Perusahaan->
             getProvinsi()->result();
 
+
+            //$this->load->view('Modal_Test', $data);
             $this->load->view('Perusahaan_Home', $data);
 
 
@@ -116,7 +121,15 @@ class Perusahaan extends CI_Controller {
 	public function view_register(){
 
         if ($this->session->userdata('user') == FALSE && $this->session->userdata('logged_in') == FALSE ) {
-            $this->load->view('Registrasi');
+            $error = array(
+                'massage_kosong' =>'',
+                'massage_namaUdahAda' =>'',
+                'massage_emailUdahAda'=>'',
+                'massage_formatEmailSalah'=>'',
+                'massage_usernameUdahAda'=>'',
+            );
+
+            $this->load->view('Registrasi',$error);
         }else{
             $this->load->view('Perusahaan_Home');
         }
@@ -303,24 +316,39 @@ class Perusahaan extends CI_Controller {
                 //echo $_FILES["input-image"]["name"];
 
 
+                $namaPerusahaan = $this->input->post('namaPerusahaan', true);
+                $jalan = $this->input->post('jalan', true);
+                $linkWebsite = $this->input->post('linkWebsite', true);
+                $idPerusahaan = $this->input->post('idPerusahaan', true);
+                $provinsi = $this->input->post('provinsi', true);
+                $kabkot = $this->input->post('kabkot', true);
+                $email = $this->input->post('emaill', true);
+                $industri = $this->input->post('industri', true);
 
 
-            $this->Model_Perusahaan->updateProfilPerusahaan(
-                $gambar,
-                $this->input->post('namaPerusahaan', true),
-                $this->input->post('jalan', true),
-                $this->input->post('linkWebsite', true),
-                $this->input->post('idPerusahaan', true),
-                $this->input->post('provinsi', true),
-                $this->input->post('kabkot', true),
-                $this->input->post('email', true),
-                $this->input->post('industri', true)
+
+
+                $this->Model_Perusahaan->updateProfilPerusahaan(
+                    $gambar,
+                    $namaPerusahaan,
+                    $jalan,
+                    $linkWebsite,
+                    $idPerusahaan,
+                    $provinsi,
+                    $kabkot,
+                    $email,
+                    $industri
                 );
 
-            $this->Model_Perusahaan->updateEmailPerusahaan(
-                $this->input->post('email', true),
-                $this->input->post('idUser', true)
-            );
+                $this->Model_Perusahaan->updateEmailPerusahaan(
+                    $this->input->post('email', true),
+                    $this->input->post('idUser', true)
+                );
+               redirect('Perusahaan/View_EditProfil?module=EditProfil');
+
+
+
+
 
             /*$this->Model_Perusahaan->updateProvinsiPerusahaan(
                 $this->input->post('provinsi', true),
@@ -335,7 +363,7 @@ class Perusahaan extends CI_Controller {
 
             );*/
 
-            redirect('Perusahaan/View_EditProfil?module=EditProfil');
+
             //$this->View_EditProfil();*
 
         }
@@ -376,7 +404,7 @@ class Perusahaan extends CI_Controller {
             $data= $this->Model_Perusahaan->
             getKabkot($this->input->post('id_provinsi'))->result();
 
-            $output = '<option value="" >pilih kabupaten kota</option>';
+            $output = '<option value="-2" >Pilih Kabupaten Kota</option>';
                 foreach($data as $d){
 
                     $output .= '<option value="'.$d->id_kabkot.'" >'.$d->nama_kabkot.'</option>';
@@ -385,20 +413,193 @@ class Perusahaan extends CI_Controller {
                 echo $output;
         }
 
+        public function cekNamaPerusahaan(){
+                    $id_perusahaan = $this->input->post('id_perusahaaan');
+                    $nama_perusahaan= $this->input->post('nama_perusahaan');
+
+                    $sqlNamaPerusahaan ="SELECT * FROM perusahaan WHERE nama_perusahaan = '$nama_perusahaan'".
+                                        "AND id_perusahaan != '$id_perusahaan'";
 
 
-        public function register(){
+                    $periksaNamaPerusahaan = $this->Model_Perusahaan->generalSelect($sqlNamaPerusahaan)->result();
 
-            $idprovinsidankabkot = 0;
-            $this->Model_Perusahaan->createPerusahaan(
-                $this->input->post('nama'),
-                $this->input->post('email'),
-                $this->input->post('username'),
-                md5($this->input->post('pass')),
-                $idprovinsidankabkot
-            );
 
-            $this->load->view('Login');
+                    $addErorrName = '<script>var element = document.getElementById("IperusahaanName");
+                                        element.classList.add("input-error");
+                                    </script>';
+
+
+                    $removeclassNama ='<script>
+                                        var element = document.getElementById("IperusahaanName");
+                                        element.classList.remove("input-error");
+                                    </script>';
+
+
+                    $enableSubmit = '<script>document.getElementById("bs").disabled = false;
+                                     </script>';
+                    $disableSubmit = '<script>document.getElementById("bs").disabled = true;
+                                     </script>';
+
+                    if (!empty($periksaNamaPerusahaan)){
+
+                        //echo '<p id="qa" style="color: red">'.$nama_perusahaan.' sudah terdaftar</p>'.$addclass.$disableSubmit;
+
+                       echo '<script> $("#qa").append("'.$nama_perusahaan.' sudah terdaftar")</script>'.$addErorrName.$disableSubmit;
+
+                    }else{
+                       // echo '<script>document.getElementById("qa").remove();</script>'.$removeclass.$enableSubmit;
+                        echo '<script> $("#qa").empty()</script>'.$removeclassNama.$enableSubmit;;
+                    }
+
+
+
+                    //echo 1;
+                //}
+
+
+        }
+
+        public function cekEmailPerusahaan(){
+            $id_perusahaan = $this->input->post('id_perusahaaan');
+            $email = $this->input->post('emaill');
+
+            $sqlEmail = "SELECT * FROM perusahaan WHERE email = '$email'".
+                "AND id_perusahaan != '$id_perusahaan'";
+
+            $periksaEmail = $this->Model_Perusahaan->generalSelect($sqlEmail)->result();
+
+            $addErorrEmail = '<script>var element = document.getElementById("emaill");
+                                        element.classList.add("input-error");
+                                    </script>';
+
+            $removeclassEmail ='<script>
+                                        var element = document.getElementById("emaill");
+                                        element.classList.remove("input-error")</script>';
+
+            $enableSubmit = '<script>document.getElementById("bs").disabled = false;
+                                     </script>';
+            $disableSubmit = '<script>document.getElementById("bs").disabled = true;
+                                     </script>';
+
+            if (!empty($periksaEmail)){
+                echo '<script> $("#erroremail").append("'.$email.' sudah digunakan")</script>'.$addErorrEmail.$disableSubmit;
+
+            }else{
+                echo '<script> $("#erroremail").empty()</script>'.$removeclassEmail.$enableSubmit;;
+            }
+
+
+
+
+
+        }
+
+   /* public function ceknamaLowongan(){
+            $namaLowongan = $this->input('namaLowongan');
+            $sql ="SELECT * FROM lowongan WHERE nama_lowongan = 'software engineer'";
+
+            $udahAda = $this->Model_Perusahaan->generalSelect($sql)->result();
+
+            $adderrorNama = '<script>var element = document.getElementById("namaLowongann");
+                                        element.classList.add("input-error");
+                                    </script>';
+            $removeErrorNama ='<script>var element = document.getElementById("namaLowongann");
+                                        element.classList.remove("input-error")</script>';
+
+
+            $enableSubmit = '<script>document.getElementById("submitTambahLowongan").disabled = false;
+                                     </script>';
+            $disableSubmit = '<script>document.getElementById("submitTambahLowongan").disabled = true;
+                                     </script>';
+
+
+            //if (!empty($udahAda)){
+
+                echo '<script> $("#masageNamaLowongan").append("axcc '.$namaLowongan.' sudah digunakan")</script>'.$adderrorNama.$disableSubmit;
+
+            //}else{
+                //echo '<script> $("#masageNamaLowongan").append("'.$namaLowongan.' sudah digunakan")</script>'.$removeErrorNama.$disableSubmit;
+
+            //}
+    }*/
+
+
+
+    public function register(){
+
+            $nama = $this->input->post('nama');
+            $email = $this->input->post('email');
+            $username = $this->input->post('username');
+            $pass = $this->input->post('pass');
+
+           $namaUdahAda =  $this->Model_Perusahaan->
+           udahAda("perusahaan","nama_perusahaan", $nama);
+
+           $emailUdahAda = $this->Model_Perusahaan->
+           udahAda("user","email_user", $email);
+
+           $usernameUdahAda = $this->Model_Perusahaan->
+            udahAda("user","username", $username);
+
+
+            $error = array(
+               'massage_kosong' =>'',
+               'massage_namaUdahAda' =>'',
+               'massage_emailUdahAda'=>'',
+               'massage_formatEmailSalah'=>'',
+                'massage_usernameUdahAda'=>'',
+           );
+
+           //cek inputan kosong
+            if(empty($nama) || empty($email) || empty($username)
+                || empty($pass)){
+
+                $error['massage_kosong']= "kolom tidak boleh kosong";
+
+                //cek kalo nama udah ada
+            }else if (!empty($namaUdahAda)){
+
+                $error['massage_namaUdahAda']="Nama Perusahaan Sudah Ada";
+
+                //cek kalo email udah ada
+            }else if (!empty($emailUdahAda)){
+
+                $error['massage_emailUdahAda']= "Email Sudah Ada";
+
+            }else if (strpos($email, '@') == false){
+
+                $error['massage_formatEmailSalah']="Format Email Salah";
+
+            }else if (!empty($usernameUdahAda)){
+
+                $error['massage_usernameUdahAda'] ="Username sudah Ada";
+
+            }
+
+            if ($error['massage_kosong']=="" &&
+                $error['massage_namaUdahAda']==""&&
+                $error['massage_emailUdahAda']==""&&
+                $error['massage_formatEmailSalah']==""&&
+                $error['massage_usernameUdahAda']==""){
+
+
+                $this->Model_Perusahaan->createPerusahaan(
+                    $nama,
+                    $email,
+                    $username,
+                    md5($pass)
+                );
+
+                $this->load->view('Login');
+            }else {
+
+                $this->load->view('Registrasi',$error);
+            }
+
+
+
+
+
         }
 
     public function test_modal(){
