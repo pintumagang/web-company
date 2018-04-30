@@ -42,7 +42,7 @@ jQuery(document).ready(function(){
                 $('#deskripsii').removeClass('input-error');
                 e.preventDefault();
                 $('#deskripsii').addClass('input-error');
-                $('#dss').append('<p> kurang '+ (200 - character) + ' character lagi </p>');
+                $('#dss').append('<p> kurang '+ (500 - character) + ' character lagi </p>');
 
             }else if (character > 1000){
                 $('#dss').empty();
